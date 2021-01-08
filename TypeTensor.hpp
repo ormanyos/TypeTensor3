@@ -19,6 +19,7 @@
 ///   - hide internal templates from "interface" (place to inside typetensor?)
 ///   - parameters checks...
 /// </summary>
+/// 
 namespace TTDimK {
 
     // ---------------------------------------------------------- TypeList, helper --------------
