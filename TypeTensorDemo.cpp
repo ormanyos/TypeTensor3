@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "TypeTensor.hpp"
 
 using namespace std;

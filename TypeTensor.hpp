@@ -1,8 +1,6 @@
 #pragma once
 
 #include <array>
-#include <tuple>
-#include <functional>
 
 /// <summary>
 /// TypeTensor K dimensions.
@@ -19,10 +17,11 @@
 ///   - generalize indexer virtual function with functor or traits (now fix name and signature: TensorIdx)
 ///   - maybe possible add constexpr to some places...
 ///   - hide internal templates from "interface" (place to inside typetensor?)
+///   - parameters checks...
 /// </summary>
 namespace TTDimK {
 
-    // ---------------------------------------------------------- TypeList as ususal :) --------------
+    // ---------------------------------------------------------- TypeList, helper --------------
     template <typename ... T>
     struct TypeList {
         constexpr static size_t RevIdx() { return 0; }
