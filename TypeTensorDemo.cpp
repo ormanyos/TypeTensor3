@@ -3,6 +3,7 @@
 ///   - store integers by static type, retrieve by dynamic type
 ///   - Double Dispatch
 ///   - Triple Dispatch
+///  Quick and dirty test.
 /// </summary>
 
 #include <iostream>
@@ -36,8 +37,7 @@ typedef TTDimK::TypeList<A0, A1, A2> ALIST;
 typedef TTDimK::TypeList<B0, B1, B2, B3> BLIST;
 typedef TTDimK::TypeList<C0, C1, C2, C3> CLIST;
 
-struct A0 {
-    
+struct A0 {    
     // tensor index of class, depends only typelist, need not change when inheritance changed!
     virtual size_t TensorIdx() { return TTDimK::TLIdx<ALIST, A0>(); }
 
@@ -50,7 +50,7 @@ struct B0 {
     static string StaticTypeName() { return "B0"; }
 };
 struct C0 {
-    virtual size_t TensorIdx() { return TTDimK::TLIdx<CLIST, C0>(); }
+    virtual size_t TensorIdxOther() { return TTDimK::TLIdx<CLIST, C0>(); }
     static string StaticTypeName() { return "C0"; }
 };
 
@@ -68,10 +68,23 @@ CreateInherited(B0, B1, BLIST)
 CreateInherited(B1, B2, BLIST)
 CreateInherited(B2, B3, BLIST)
 
-CreateInherited(C0, C1, CLIST)
-CreateInherited(C1, C2, CLIST)
-CreateInherited(C2, C3, CLIST)
+// ------------- with different indexer function ------------------------------
+#define CreateInheritedOther(BASE, ACTUAL, LIST)                                \
+    struct ACTUAL : public BASE {                                               \
+    virtual size_t TensorIdxOther() { return TTDimK::TLIdx<LIST, ACTUAL>(); }   \
+    static string StaticTypeName() { return #ACTUAL; }                          \
+    };
 
+CreateInheritedOther(C0, C1, CLIST)
+CreateInheritedOther(C1, C2, CLIST)
+CreateInheritedOther(C2, C3, CLIST)
+
+namespace TTDimK {
+    template <>
+    struct TensorIndexerTrait<C0*> {
+        static size_t GetIndex(C0* obj) { return obj->TensorIdxOther(); }
+    };
+}
 // --------------------------------------------- main entry
 int main()
 {

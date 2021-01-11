@@ -81,6 +81,14 @@ namespace TTDimK {
         }
     };
     // ---------------------------------------------------------- Digger by objects --------------
+    template <typename CLS>
+    struct TensorIndexerTrait { };
+
+    template <typename CLS>
+    struct TensorIndexerTrait<CLS*> {
+        static size_t GetIndex(CLS* obj) { return obj->TensorIdx(); }
+    };
+
     template < typename Data, typename ... ParamTail >
     struct ObjDigger {
         template <typename ArrayT>
@@ -90,7 +98,7 @@ namespace TTDimK {
     struct ObjDigger<Data, ParamHead, ParamTail... > {
         template <typename ArrayT>
         static Data& Dig(ArrayT& arr, ParamHead ph, ParamTail... rest) {
-            size_t idx = ph->TensorIdx(); // need to be generalized !!!
+            size_t idx = TensorIndexerTrait<ParamHead>::GetIndex(ph); //  ph->TensorIdx(); // need to be generalized !!!
             return ObjDigger<Data, ParamTail...>::Dig(arr[idx], rest...);
         }
     };
