@@ -4,20 +4,20 @@ If its element is a function, then double, triple (or more) dispatch can be impl
 
 For example, there are seven classes:
 
-class A0 {};  class A1 : public A0 {}; class A2 : public A0 {};
-class B0 {};  class B1 : public B0 {};
-class C0 {};  class C1 : public C0 {};
+class A0 {};  class A1 : public A0 {}; class A2 : public A0 {};   
+class B0 {};  class B1 : public B0 {};    
+class C0 {};  class C1 : public C0 {};   
 
 Make typelists from classes:
 
-typedef TypeList<A0, A1, A2> ALIST;
-typedef TypeList<B0, B1> BLIST;
-typedef TypeList<C0, C1> CLIST;
+typedef TypeList<A0, A1, A2> ALIST;   
+typedef TypeList<B0, B1> BLIST;   
+typedef TypeList<C0, C1> CLIST;   
 
 Make a typetensor from type lists, it holds functions:
 
-using Fun3 = void (*)(B0*, C0*, C0* );
-TypeTensor<Fun3, ALIST, BLIST, CLIST> TripleDispatcher;
+using Fun3 = void (*)(B0*, C0*, C0* );   
+TypeTensor<Fun3, ALIST, BLIST, CLIST> TripleDispatcher;   
 
 
 access data by type:
