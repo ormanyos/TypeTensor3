@@ -8,21 +8,18 @@ class A0 {};  class A1 : public A0 {}; class A2 : public A0 {};
 class B0 {};  class B1 : public B0 {}; class B2 : public B0 {}; class B3 : public B0 {};
 class C0 {};  class C1 : public C0 {}; class C2 : public C0 {};
 ```
-
 *Make typelists from classes:*
 ```C++
 typedef TypeList<A0, A1, A2> ALIST;   
 typedef TypeList<B0, B1, B2, B3> BLIST;   
 typedef TypeList<C0, C1, C2> CLIST;   
 ```
-
-*Make a TypeTensor from type lists, it stores functions:*
+*Make a TypeTensor from type lists, it stores functions, function pointers are created:*
 ```C++
 using Fun3 = void (*)(A0*, B0*, C0* );
 TypeTensor<Fun3, ALIST, BLIST, CLIST> TripleDispatcher;   
 ```
-
-*Define dispatch handler functions:*
+*Define dispatch handler functions and they are stored to matrix elements:*
 ```C++
 TripleDispatcher.at<A1, B1, C1>() = [](A0* a, B0* b, C0* c) { 
   cout << "A1 - B1 - C1 called" << endl; 
@@ -31,7 +28,6 @@ TripleDispatcher.at<A2, B3, C1>() = [](A0* a, B0* b, C0* c) {
   cout << "A2 - B3 - C1 called" << endl; 
 };
 ```
-
 *Define objects:*
 ```C++
 A0* a = new A2;
@@ -45,12 +41,6 @@ TripleDispatcher.Call(a, b, c); // A2 - B3 - C1 called
 
 The TypeTensorDemo.cpp file has some exmamples.
 
-
-
-This can be used to store data in a k-dimensional matrix (N1 x N2 x … x Nk), axes of the matrix are indexed by classes. The matrix is created in compile time, by classes static-types and data can be accessed run-time, by dynamic type. The stored data can be function also, then it can be called by a matrix helper member.
-In trivial – one dimensional case, k = 1 - case is can do the same working as virtual function, because function stored compile time, but selection of functions is made by dynamic type of the class.
-
 If, the matrix has two dimensions, then then it achieves double dispatch, because the selected function to calls depends on two class dynamic type.
-And, to use this, you can easily make triple or more dimensioned dispatches.
 
 To call a stored function the code calls one virtual function per dimension, so double dispatch function calls 3 functions (2 for indexes and one indirection to call stored function).
