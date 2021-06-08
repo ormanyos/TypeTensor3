@@ -1,6 +1,6 @@
 
 A TypeTensor is a K dimensional matrix, that is created in compile type. Its axes are indexed by classes and its elements are accessed be objects in runtime.
-If its elementa are functions, then double, triple (or more) dispatch can be implemented in a simple way.
+If its elements are functions, then double, triple (or more) dispatch can be implemented in a simple way.
 
 *For example, there are ten classes:*
 ```C++
