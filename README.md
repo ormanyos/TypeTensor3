@@ -39,7 +39,7 @@ C0* c = new C1;
 TripleDispatcher.Call(a, b, c); // A2 - B3 - C1 called
 ```
 
-The TypeTensorDemo.cpp file has some exmamples.
+The TypeTensorDemo.cpp file has some examples.
 
 If, the matrix has two dimensions, then then it achieves double dispatch, because the selected function to calls depends on two class dynamic type.
 
